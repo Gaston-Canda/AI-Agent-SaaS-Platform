@@ -1,185 +1,256 @@
 # AI Agents SaaS Platform
 
-A scalable, production-ready FastAPI backend for managing AI agents in a multi-tenant SaaS environment.
+A scalable **multi-tenant SaaS platform** for building, managing, and monetizing AI agents.
 
-## Features
+This platform allows companies to create intelligent agents capable of executing tasks, interacting with tools, and integrating with external systems — all within a secure and scalable architecture.
 
-- **Multi-tenant Architecture**: Isolated tenant data with secure tenant scoping
-- **JWT Authentication**: Secure token-based authentication with refresh tokens
-- **Agent Management**: Create, update, delete, and execute AI agents
-- **PostgreSQL Database**: Robust relational database with proper indexing
-- **Redis Support**: Caching and task queue support
-- **Docker Support**: Complete Docker setup with docker-compose
-- **Type Hints**: Full type annotations for better IDE support and code quality
-- **Clean Architecture**: Separated routers, services, models, and schemas
+---
 
-## Project Structure
+## 🚀 Overview
+
+AI Agents SaaS Platform provides a complete environment for:
+
+* Creating AI agents
+* Executing tasks asynchronously
+* Integrating external tools
+* Managing agent memory
+* Monitoring usage and costs
+* Operating a production-ready SaaS
+
+The system is designed for **production deployment**, supporting multi-tenant environments and scalable infrastructure.
+
+---
+
+## 🧠 Key Features
+
+### Agent Platform
+
+* Create and manage AI agents
+* Agent execution engine
+* Tool execution system
+* Agent memory storage
+* Execution logs and metrics
+
+### SaaS Infrastructure
+
+* Multi-tenant architecture
+* User authentication and authorization
+* Tenant isolation
+* Usage tracking
+* Billing integration
+
+### Developer Platform
+
+* REST API
+* Agent configuration system
+* Tool registry
+* Execution monitoring
+
+### Infrastructure
+
+* Docker deployment
+* PostgreSQL database
+* Redis queue system
+* Celery async workers
+
+---
+
+## 🏗 Architecture
+
+Frontend:
+
+* React
+* Vite
+* TypeScript
+
+Backend:
+
+* FastAPI
+* SQLAlchemy
+* Pydantic
+
+Infrastructure:
+
+* PostgreSQL
+* Redis
+* Celery
+
+Deployment:
+
+* Docker
+* Railway
+* Fly.io
+* AWS
+
+---
+
+## 📦 Project Structure
 
 ```
-app/
-├── core/              # Configuration, security, dependencies
-├── db/                # Database setup and session management
-├── models/            # SQLAlchemy ORM models
-├── routers/           # FastAPI route handlers
-├── schemas/           # Pydantic request/response models
-├── services/          # Business logic
-└── main.py            # FastAPI app initialization
-
-tests/                 # Unit and integration tests
-docker-compose.yml     # Docker services configuration
-requirements.txt       # Python dependencies
+AI-Agent-SaaS-Platform
+│
+├── app/                    # Backend application
+│   ├── agents/
+│   ├── routers/
+│   ├── services/
+│   ├── models/
+│   ├── core/
+│   └── tools/
+│
+├── frontend/               # React frontend
+│
+├── scripts/                # Setup and initialization scripts
+│
+├── deploy/                 # Cloud deployment configs
+│
+├── docker-compose.yml      # Local stack
+└── requirements.txt
 ```
 
-## Prerequisites
+---
 
-- Python 3.11+
-- PostgreSQL 13+
-- Redis 6+
-- Docker & Docker Compose (optional)
+## ⚙️ Local Development
 
-## Setup
+### Requirements
 
-### 1. Clone and Install Dependencies
+* Python 3.11+
+* Node.js
+* PostgreSQL
+* Redis
+* Docker (optional)
 
-```bash
+---
+
+### Backend Setup
+
+```
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
+Run API:
 
-```bash
-cp .env.example .env
 ```
-
-Edit `.env` with your settings:
-
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/ai_agents
-SECRET_KEY=your-super-secret-key-here
-REDIS_URL=redis://localhost:6379/0
-```
-
-### 3. Database Setup
-
-```bash
-# Create database
-createdb ai_agents
-
-# Run migrations (once Alembic is set up)
-alembic upgrade head
-```
-
-## Running the Application
-
-### Development (Local)
-
-```bash
 uvicorn app.main:app --reload
 ```
 
-The API will be available at `http://localhost:8000`
+API docs:
 
-### Using Docker Compose
-
-```bash
-docker-compose up -d
+```
+http://localhost:8000/api/docs
 ```
 
-Check logs with:
+---
 
-```bash
-docker-compose logs -f api
+### Frontend Setup
+
+```
+cd frontend
+npm install
+npm run dev
 ```
 
-## API Endpoints
+Frontend:
 
-### Authentication
+```
+http://localhost:5173
+```
 
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/refresh` - Refresh access token
+---
 
-### Agents
+## 🐳 Docker Deployment
 
-- `POST /api/agents` - Create agent
-- `GET /api/agents` - List agents
-- `GET /api/agents/{agent_id}` - Get agent details
-- `PATCH /api/agents/{agent_id}` - Update agent
-- `DELETE /api/agents/{agent_id}` - Delete agent
-- `POST /api/agents/{agent_id}/execute` - Execute agent
-- `GET /api/agents/{agent_id}/executions/{execution_id}` - Get execution status
+Run full stack:
 
-## Authentication Flow
+```
+docker compose up
+```
 
-1. User registers with tenant slug, email, and password
-2. System creates tenant if needed, then creates user
-3. User receives access and refresh tokens
-4. Access token used in `Authorization: Bearer <token>` header
-5. Refresh token used to get new access token when expired
+This will start:
 
-## Database Schema
+* API
+* Worker
+* PostgreSQL
+* Redis
+* Frontend
+* Flower monitoring
 
-### Tenants
+---
 
-- Multi-tenant isolation
-- Tenant-scoped operations
+## 💳 SaaS Billing
 
-### Users
+The platform includes a built-in subscription system.
 
-- Email-based authentication
-- Tenant association
-- Admin flag for permissions
+Plans supported:
 
-### Agents
+* Free
+* Starter
+* Pro
+* Enterprise
 
-- Agent metadata and configuration
-- System prompts and model selection
-- Version tracking
+Billing integration via **Stripe**.
 
-### AgentExecutions
+---
 
-- Execution history and logs
-- Input/output data
-- Error tracking and execution time
+## 🔐 Security
 
-## Security Considerations
+* JWT authentication
+* Rate limiting
+* Request size limits
+* Security headers
+* Tenant isolation
 
-1. **JWT Tokens**: Signed with HS256, short expiration times
-2. **Password Hashing**: bcrypt with salt
-3. **Tenant Isolation**: All queries filtered by tenant_id
-4. **CORS**: Configured for allowed origins
-5. **Database**: PostgreSQL with parameterized queries (SQLAlchemy ORM)
+---
 
-## Production Checklist
+## 📊 Monitoring
 
-- [ ] Change SECRET_KEY in production
-- [ ] Set DEBUG=False
-- [ ] Configure proper ALLOWED_ORIGINS
-- [ ] Use environment variables for all secrets
-- [ ] Set up proper logging
-- [ ] Configure database backups
-- [ ] Set up Redis persistence
-- [ ] Enable HTTPS/TLS
-- [ ] Implement rate limiting
-- [ ] Add request monitoring
-- [ ] Configure horizontal scaling
+System includes:
 
-## Extending the Platform
+* Execution logs
+* Tool usage tracking
+* Token usage monitoring
+* Cost analytics
+* Worker monitoring (Flower)
 
-### Adding New Agent Types
+---
 
-1. Create service in `app/services/`
-2. Add routes in `app/routers/`
-3. Create schemas in `app/schemas/`
-4. Update models if needed in `app/models/`
+## 🚀 Deployment
 
-### Integrating External AI Services
+Supported deployment targets:
 
-1. Create service wrapper (e.g., `app/services/llm_service.py`)
-2. Implement agent execution logic
-3. Queue tasks with Celery or similar
-4. Store results in database
+* Railway
+* Fly.io
+* AWS ECS / EC2
 
-## License
+Deployment configuration included in `/deploy`.
 
-MIT
+---
+
+## 🗺 Roadmap
+
+See the full roadmap in:
+
+```
+ROADMAP.md
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
+
+Please open an issue to discuss proposed changes.
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 👤 Author
+
+Built by **Gaston Canda**
