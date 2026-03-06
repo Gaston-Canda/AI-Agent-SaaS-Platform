@@ -1,0 +1,90 @@
+# AI Agents SaaS Platform Roadmap
+
+This roadmap outlines the evolution of the platform from the initial MVP to a fully scalable AI agent ecosystem.
+
+---
+
+# Version 1.0 — Initial SaaS Platform
+
+Status: Completed
+
+Core functionality implemented:
+
+* Multi-tenant architecture
+* Agent execution engine
+* Tool integration system
+* Agent memory storage
+* Async execution with Celery
+* Execution monitoring
+* Billing system
+* Docker deployment
+* Cloud deployment configs
+
+---
+
+# Version 1.1 — Agent Improvements
+
+Planned features:
+
+* Streaming responses
+* Agent execution timeline
+* Improved error handling
+* Agent execution retry system
+* Better prompt debugging
+
+---
+
+# Version 1.2 — Tool Ecosystem
+
+Goals:
+
+* Visual tool builder
+* External API connectors
+* OAuth integrations
+* Tool marketplace
+* Plugin architecture
+
+---
+
+# Version 1.3 — Observability
+
+Platform monitoring improvements:
+
+* Agent execution tracing
+* Performance analytics
+* Token cost dashboards
+* Latency tracking
+* Error analytics
+
+---
+
+# Version 1.4 — Visual Agent Builder
+
+No-code agent creation:
+
+* Visual workflow editor
+* Prompt builder
+* Tool configuration UI
+* Agent templates
+
+---
+
+# Version 2.0 — Agent Marketplace
+
+Platform expansion:
+
+* Public agent marketplace
+* Monetizable agents
+* Agent sharing
+* Community tools
+
+---
+
+# Version 3.0 — AI Automation Platform
+
+Long-term vision:
+
+* Multi-agent orchestration
+* Business workflow automation
+* Enterprise integrations
+* AI automation marketplace
