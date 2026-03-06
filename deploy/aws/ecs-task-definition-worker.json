@@ -1,0 +1,40 @@
+{
+  "family": "ai-agents-worker",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/aiAgentsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "worker",
+      "image": "<ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/ai-agents-api:latest",
+      "essential": true,
+      "command": [
+        "celery",
+        "-A",
+        "app.workers.celery_worker",
+        "worker",
+        "--loglevel=info",
+        "--concurrency=4"
+      ],
+      "environment": [
+        {"name": "APP_ENV", "value": "production"}
+      ],
+      "secrets": [
+        {"name": "DATABASE_URL", "valueFrom": "arn:aws:ssm:<REGION>:<ACCOUNT_ID>:parameter/ai-agents/DATABASE_URL"},
+        {"name": "REDIS_URL", "valueFrom": "arn:aws:ssm:<REGION>:<ACCOUNT_ID>:parameter/ai-agents/REDIS_URL"},
+        {"name": "SECRET_KEY", "valueFrom": "arn:aws:ssm:<REGION>:<ACCOUNT_ID>:parameter/ai-agents/SECRET_KEY"}
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ai-agents",
+          "awslogs-region": "<REGION>",
+          "awslogs-stream-prefix": "worker"
+        }
+      }
+    }
+  ]
+}

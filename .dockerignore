@@ -1,0 +1,16 @@
+.dockerignore
+__pycache__
+*.pyc
+.git
+.gitignore
+.env
+.venv
+venv/
+*.md
+tests/
+.pytest_cache/
+*.sqlite
+.coverage
+frontend/node_modules/
+frontend/dist/
+pytest-cache-files-*/
